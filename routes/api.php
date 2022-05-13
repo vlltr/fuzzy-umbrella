@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\HandlerController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -18,6 +18,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/placas',  [\App\Http\Controllers\HandlerController::class, 'cardIdentifier']);
-Route::get('/centros',  [\App\Http\Controllers\HandlerController::class, 'costCenter']);
-Route::get('/creditos',  [\App\Http\Controllers\HandlerController::class, 'credits']);
+Route::get('/placas',  [HandlerController::class, 'cardIdentifier']);
+Route::get('/centros',  [HandlerController::class, 'costCenter']);
+Route::get('/creditos',  [HandlerController::class, 'credits']);
+Route::get('/productos',  [HandlerController::class, 'products']);
+Route::get('/precios',  [HandlerController::class, 'prices']);
+Route::get('/clientes',  [HandlerController::class, 'clients']);
+Route::get('/stock',  [HandlerController::class, 'stock']);
+Route::get('/documentos',  [HandlerController::class, 'documentStatus']);

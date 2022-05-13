@@ -18,4 +18,24 @@ class HandlerController extends Controller
     public function credits(){
         return Http::sap()->get('/ZWS_ECOM/ZCREDITOS');
     }
+
+    public function products(){
+        return Http::sap()->get('/ZWS_ECOM/ZPRODUCTOS');
+    }
+
+    public function prices(){
+        return Http::sap()->get('/ZWS_ECOM/ZPRECIOS');
+    }
+
+    public function clients(){
+        return Http::sap()->get('/ZWS_ECOM/ZCLIENTES');
+    }
+
+    public function stock(){
+        return Http::sap()->get('/ZWS_ECOM/ZSTOCK');
+    }
+
+    public function documentStatus(){
+        return Http::sap()->get('/ZWS_ECOM/ZESTADOCU');
+    }
 }
