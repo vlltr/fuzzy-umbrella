@@ -17,3 +17,7 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::get('/placas',  [\App\Http\Controllers\HandlerController::class, 'cardIdentifier']);
+Route::get('/centros',  [\App\Http\Controllers\HandlerController::class, 'costCenter']);
+Route::get('/creditos',  [\App\Http\Controllers\HandlerController::class, 'credits']);
