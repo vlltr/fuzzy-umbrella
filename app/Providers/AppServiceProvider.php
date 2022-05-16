@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Http\Client\ConnectionException;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -25,16 +26,14 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Http::macro('sap', function (){
-            if (App::environment('local')) {
-                return Http::withBasicAuth(env('SAP_SERVICE_USERNAME_LOCAL'), env('SAP_SERVICE_PASSWORD_LOCAL'))->baseUrl(env('SAP_URL_SERVICE_LOCAL'));
-            }
-
-            if (App::environment('production')) {
-                return Http::withBasicAuth(env('SAP_SERVICE_USERNAME'), env('SAP_SERVICE_PASSWORD'))->baseUrl(env('SAP_URL_SERVICE'));
-            }
-
-            abort(500, 'Server Error');
+        Http::macro('sap', function () {
+            $url = App::environment('local') ? env('SAP_URL_SERVICE_LOCAL') : env('SAP_URL_SERVICE');
+            $username = App::environment('local') ? env('SAP_SERVICE_USERNAME_LOCAL') : env('SAP_SERVICE_USERNAME');
+            $password = App::environment('local') ? env('SAP_SERVICE_PASSWORD_LOCAL') : env('SAP_SERVICE_PASSWORD');
+            
+            return Http::withBasicAuth($username, $password)
+                ->baseUrl($url)
+                ->timeout(3);
         });
     }
 }

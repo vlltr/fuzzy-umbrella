@@ -16,8 +16,9 @@ class SetHeaders
      */
     public function handle(Request $request, Closure $next)
     {
+        $request->headers->set('Accept', 'application/json');
         $response = $next($request);
-        $response->header('Content-Type', 'application/json');
+        $response->headers->set('Content-Type', 'application/json');
         return $response;
     }
 }
