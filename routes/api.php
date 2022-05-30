@@ -18,11 +18,16 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/placas',  [HandlerController::class, 'cardIdentifier']);
-Route::get('/centros',  [HandlerController::class, 'costCenter']);
-Route::get('/creditos',  [HandlerController::class, 'credits']);
-Route::get('/productos',  [HandlerController::class, 'products']);
-Route::get('/precios',  [HandlerController::class, 'prices']);
-Route::get('/clientes',  [HandlerController::class, 'clients']);
-Route::get('/stock',  [HandlerController::class, 'stock']);
-Route::get('/documentos',  [HandlerController::class, 'documentStatus']);
+
+
+Route::controller(HandlerController::class)->group(function () {
+    Route::get('/placas', 'cardIdentifier');
+    Route::get('/centros', 'costCenter');
+    Route::get('/creditos', 'credits');
+    Route::get('/productos', 'products');
+    Route::get('/precios', 'prices');
+    Route::get('/clientes', 'clients');
+    Route::get('/stock', 'stock');
+    Route::get('/documentos', 'documentStatus');
+    Route::get('/historico', 'historic');
+});

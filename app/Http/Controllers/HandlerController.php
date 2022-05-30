@@ -18,6 +18,10 @@ class HandlerController extends Controller
                 return $response;
                 break;
 
+            case 404:
+                return response()->json(['message' => 'Data Not Found'], 404);
+                break;
+
             case 500:
                 return response()->json([
                     'message' => 'Client Error Server',
@@ -37,7 +41,7 @@ class HandlerController extends Controller
         ]);
 
         $response = $this->handleSAPResponse(Http::sap()->get('/zapis/zapi_cebe?sap-client=400&P_SOC=' . $request->sociedad));
-        
+
         return $response->collect()->isEmpty() ? response()->json([], 204) : $response->collect();
     }
 
@@ -69,5 +73,15 @@ class HandlerController extends Controller
     public function documentStatus()
     {
         return Http::sap()->get('/ZWS_ECOM/ZESTADOCU');
+    }
+
+    public function historic(Request $request)
+    {
+        $request->validate([
+            'fecha' => 'required|date',
+            'cliente' => 'required|numeric',
+        ]);
+
+        return $this->handleSAPResponse(Http::sap()->get("/ZAPIS/ZHISTORICOSAP?ORG=2000&FECHA={$request->fecha}&CLIENTE={$request->cliente}"));
     }
 }
