@@ -29,5 +29,25 @@ return [
         'secret' => env('AWS_SECRET_ACCESS_KEY'),
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
+    /*
+    |--------------------------------------------------------------------------
+    | SAP SERVICE CONFIGURATION
+    |--------------------------------------------------------------------------
+    |
+    | This settings determines environment and parameters to use for
+    | service information.
+    | 
+    |
+    */
+
+    'sap' => [
+        'environment' => env('SAP_ENVIRONMENT'),
+        'url_local' => env('SAP_URL_SERVICE_LOCAL'),
+        'username_local' => env('SAP_SERVICE_USERNAME_LOCAL'),
+        'password_local' => env('SAP_SERVICE_PASSWORD_LOCAL'),
+        'url' => env('SAP_URL_SERVICE'),
+        'username' => env('SAP_SERVICE_USERNAME'),
+        'password' => env('SAP_SERVICE_PASSWORD'),
+    ]
 
 ];

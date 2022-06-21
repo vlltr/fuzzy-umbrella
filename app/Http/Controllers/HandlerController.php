@@ -7,28 +7,6 @@ use Illuminate\Support\Facades\Http;
 
 class HandlerController extends Controller
 {
-    public function handleSAPResponse($response)
-    {
-        switch ($response->status()) {
-            case 401:
-                return response()->json(['message' => 'Unauthorized'], 401);
-                break;
-
-            case 200:
-                return $response;
-                break;
-
-            case 404:
-                return response()->json(['message' => 'Data Not Found'], 404);
-                break;
-
-            case 500:
-                return response()->json([
-                    'message' => 'Client Error Server',
-                ], 500);
-                break;
-        }
-    }
     public function cardIdentifier()
     {
         return $this->handleSAPResponse(Http::sap()->get('/zapis/ZAPI_PLACAS?sap-client=400'));
@@ -83,5 +61,28 @@ class HandlerController extends Controller
         ]);
 
         return $this->handleSAPResponse(Http::sap()->get("/ZAPIS/ZHISTORICOSAP?ORG=2000&FECHA={$request->fecha}&CLIENTE={$request->cliente}"));
+    }
+
+    public function handleSAPResponse($response)
+    {
+        switch ($response->status()) {
+            case 401:
+                return response()->json(['message' => 'Unauthorized'], 401);
+                break;
+
+            case 200:
+                return $response;
+                break;
+
+            case 404:
+                return response()->json(['message' => 'Data Not Found'], 404);
+                break;
+
+            case 500:
+                return response()->json([
+                    'message' => 'Client Error Server',
+                ], 500);
+                break;
+        }
     }
 }

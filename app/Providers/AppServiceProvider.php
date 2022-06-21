@@ -27,9 +27,10 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Http::macro('sap', function () {
-            $url = App::environment('local') ? env('SAP_URL_SERVICE_LOCAL') : env('SAP_URL_SERVICE');
-            $username = App::environment('local') ? env('SAP_SERVICE_USERNAME_LOCAL') : env('SAP_SERVICE_USERNAME');
-            $password = App::environment('local') ? env('SAP_SERVICE_PASSWORD_LOCAL') : env('SAP_SERVICE_PASSWORD');
+
+            $url = config('services.sap.environment') == 'local' ? config('services.sap.url_local') : config('services.sap.url');
+            $username = config('services.sap.environment') == 'local' ? config('services.sap.username_local') : config('services.sap.username');
+            $password = config('services.sap.environment') == 'local' ? config('services.sap.password_local') : config('services.sap.password');
             
             return Http::withBasicAuth($username, $password)
                 ->baseUrl($url)
