@@ -4,12 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
-
+use App\Traits\ResponseTrait;
 class HandlerController extends Controller
 {
+    use ResponseTrait;
+
     public function cardIdentifier()
     {
-        return $this->handleSAPResponse(Http::sap()->get('/zapis/ZAPI_PLACAS?sap-client=400'));
+        return $this->handleResponse(Http::sap()->get('/zapis/ZAPI_PLACAS?sap-client=400'));
     }
 
     public function costCenter(Request $request)
@@ -18,7 +20,7 @@ class HandlerController extends Controller
             'sociedad' => 'required|string|max:5',
         ]);
 
-        $response = $this->handleSAPResponse(Http::sap()->get('/zapis/zapi_cebe?sap-client=400&P_SOC=' . $request->sociedad));
+        $response = $this->handleResponse(Http::sap()->get('/zapis/zapi_cebe?sap-client=400&P_SOC=' . $request->sociedad));
 
         return $response->collect()->isEmpty() ? response()->json([], 204) : $response->collect();
     }
@@ -60,29 +62,7 @@ class HandlerController extends Controller
             'cliente' => 'required|numeric',
         ]);
 
-        return $this->handleSAPResponse(Http::sap()->get("/ZAPIS/ZHISTORICOSAP?ORG=2000&FECHA={$request->fecha}&CLIENTE={$request->cliente}"));
+        return $this->handleResponse(Http::sap()->get("/ZAPIS/ZHISTORICOSAP?ORG=2000&FECHA={$request->fecha}&CLIENTE={$request->cliente}"));
     }
 
-    public function handleSAPResponse($response)
-    {
-        switch ($response->status()) {
-            case 401:
-                return response()->json(['message' => 'Unauthorized'], 401);
-                break;
-
-            case 200:
-                return $response;
-                break;
-
-            case 404:
-                return response()->json(['message' => 'Data Not Found'], 404);
-                break;
-
-            case 500:
-                return response()->json([
-                    'message' => 'Client Error Server',
-                ], 500);
-                break;
-        }
-    }
 }

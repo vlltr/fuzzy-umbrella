@@ -48,6 +48,20 @@ return [
         'url' => env('SAP_URL_SERVICE'),
         'username' => env('SAP_SERVICE_USERNAME'),
         'password' => env('SAP_SERVICE_PASSWORD'),
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Token Security
+    |--------------------------------------------------------------------------
+    |
+    | This settings determines login and token validation.
+    |
+    | 
+    |
+    */
+    'security' => [
+        'url' => env('APPS_CAMPESTRE_URL')
     ]
 
 ];
